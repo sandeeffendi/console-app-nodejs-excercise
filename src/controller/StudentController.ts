@@ -6,8 +6,9 @@ class StudentController {
   showMenu(): void {
     console.log("\n ===== Student Grading System =====");
     console.log("1. Add Student");
-    console.log("2.Show Student List");
-    console.log("3. Exit");
+    console.log("2. Show Student List");
+    console.log("3. Clear Students List");
+    console.log("4. Exit");
   }
 
   handleSelection(input: string): boolean {
@@ -18,6 +19,9 @@ class StudentController {
         this.listStudent();
         return false;
       case "3":
+        this.clearStudent();
+        return false;
+      case "4":
         console.log("\nGoodBye!");
         process.exit(0);
       default:
@@ -34,7 +38,18 @@ class StudentController {
       console.log("\nStudent added succesfully.");
     } catch (error) {
       if (error instanceof Error) {
-        console.log(`\nCatch an error: ${error.message}`);
+        console.log(`\nCaught an error: ${error.message}`);
+      }
+    }
+  }
+
+  private clearStudent(): void {
+    try {
+      this.service.clear();
+      console.log("\nStudent list cleared successfully.");
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(`\nCaught an error: ${error.message}`);
       }
     }
   }

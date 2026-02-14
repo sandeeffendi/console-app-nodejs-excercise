@@ -50,6 +50,13 @@ class StudentService {
       }),
     );
   }
+
+  clear(): void {
+    if (this.student.length === 0 || !Array.isArray(this.student)) {
+      throw new Error("Students data is empty. Please Input Data.");
+    }
+    this.student = [];
+  }
 }
 
 export { StudentService };
