@@ -1,0 +1,57 @@
+import { StudentService } from "../service/StudentService.js";
+
+class StudentController {
+  constructor(private readonly service: StudentService) {}
+
+  exitMessage: string = "GoodBye!";
+
+  showMenu(): void {
+    console.log("\n ===== Student Grading System =====");
+    console.log("1. Add Student");
+    console.log("2.Show Student List");
+    console.log("3. Exit");
+  }
+
+  handleSelection(input: string): boolean {
+    switch (input) {
+      case "1":
+        return true;
+      case "2":
+        this.listStudent();
+        return false;
+      case "3":
+        console.log("GoodBye!");
+        process.exit(0);
+      default:
+        return false;
+    }
+  }
+
+  addStudent(name: string, inputScore: string) {
+    const score = Number.parseInt(inputScore);
+
+    try {
+      this.service.Add(name, score);
+      console.log("Student added succesfully.");
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(`Catch an error: ${error.message}`);
+      }
+    }
+  }
+
+  private listStudent(): void {
+    const student = this.service.getAll();
+
+    if (student.length === 0) {
+      console.log("Student data not found");
+      return;
+    }
+
+    student.forEach((student) => {
+      console.log(`${student.name} - ${student.score} - ${student.grade}`);
+    });
+  }
+}
+
+export { StudentController };
