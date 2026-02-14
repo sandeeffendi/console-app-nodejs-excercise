@@ -3,13 +3,12 @@ import { StudentService } from "../service/StudentService.js";
 class StudentController {
   constructor(private readonly service: StudentService) {}
 
-  exitMessage: string = "GoodBye!";
-
   showMenu(): void {
     console.log("\n ===== Student Grading System =====");
     console.log("1. Add Student");
-    console.log("2.Show Student List");
-    console.log("3. Exit");
+    console.log("2. Show Student List");
+    console.log("3. Clear Students List");
+    console.log("4. Exit");
   }
 
   handleSelection(input: string): boolean {
@@ -20,9 +19,13 @@ class StudentController {
         this.listStudent();
         return false;
       case "3":
-        console.log("GoodBye!");
+        this.clearStudent();
+        return false;
+      case "4":
+        console.log("\nGoodBye!");
         process.exit(0);
       default:
+        console.log("\nUnexpected input.");
         return false;
     }
   }
@@ -32,10 +35,21 @@ class StudentController {
 
     try {
       this.service.Add(name, score);
-      console.log("Student added succesfully.");
+      console.log("\nStudent added succesfully.");
     } catch (error) {
       if (error instanceof Error) {
-        console.log(`Catch an error: ${error.message}`);
+        console.log(`\nCaught an error: ${error.message}`);
+      }
+    }
+  }
+
+  private clearStudent(): void {
+    try {
+      this.service.clear();
+      console.log("\nStudent list cleared successfully.");
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(`\nCaught an error: ${error.message}`);
       }
     }
   }
@@ -44,10 +58,11 @@ class StudentController {
     const student = this.service.getAll();
 
     if (student.length === 0) {
-      console.log("Student data not found");
+      console.log("\nStudent data not found");
       return;
     }
 
+    console.log("\n==== Students Data ====");
     student.forEach((student) => {
       console.log(`${student.name} - ${student.score} - ${student.grade}`);
     });
