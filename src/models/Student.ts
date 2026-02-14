@@ -14,7 +14,7 @@ class Student {
 
   constructor(props: StudentProps) {
     this.id = props.id;
-    this.name = props.id;
+    this.name = props.name;
     this.score = props.score;
     this.grade = Student.calculateScore(props.score);
   }
