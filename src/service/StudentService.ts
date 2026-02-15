@@ -56,6 +56,7 @@ class StudentService {
       throw new Error("Students data is empty. Please Input Data.");
     }
     this.student = [];
+    this.storage.save(this.student);
   }
 }
 
